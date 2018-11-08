@@ -1,0 +1,33 @@
+package database
+
+import (
+	"github.com/jinzhu/gorm"
+
+	"awesome-project/config"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+)
+
+type Database struct {
+	Conn *gorm.DB
+	conf *config.Config
+}
+
+func (db *Database) AutoMigrate() error {
+	if err := db.Conn.AutoMigrate(&User{}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func NewDatabase(conf *config.Config) (*Database, error) {
+	conn, err := gorm.Open("sqlite3", conf.Database)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Database{
+		Conn: conn,
+		conf: conf,
+	}, nil
+}

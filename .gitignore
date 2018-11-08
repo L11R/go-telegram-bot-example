@@ -1,0 +1,11 @@
+# goland
+.idea
+
+# go modules
+go.sum
+
+# our sqlite database
+users.db
+
+# binary
+bot
